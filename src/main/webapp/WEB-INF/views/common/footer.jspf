@@ -1,0 +1,17 @@
+</main>
+<footer class="w-full bg-surface-container-lowest shadow-[0_-1px_4px_rgba(0,0,0,0.02)] mt-space-2xl py-space-xl">
+    <div class="max-w-7xl mx-auto px-gutter-lg flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant">
+        <div class="flex items-center gap-space-sm">
+            <span class="font-title-md text-title-md text-primary font-bold">ClinicManager</span>
+            <span class="font-body-sm text-body-sm text-outline">© 2026 ClinicManager. All rights reserved.</span>
+        </div>
+        <div class="flex items-center gap-space-md font-label-md text-label-md text-outline">
+            <a class="hover:text-on-surface transition-colors" href="${ctx}/privacy">Privacy</a>
+            <a class="hover:text-on-surface transition-colors" href="${ctx}/terms">Terms</a>
+            <a class="hover:text-on-surface transition-colors" href="${ctx}/contact">Contact</a>
+        </div>
+    </div>
+</footer>
+<script src="${ctx}/assets/js/main.js"></script>
+</body>
+</html>

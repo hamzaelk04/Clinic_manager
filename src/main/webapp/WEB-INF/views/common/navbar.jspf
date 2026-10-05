@@ -7,31 +7,44 @@
             <span class="font-title-md text-title-md text-primary font-bold tracking-tight">ClinicManager</span>
         </a>
 
-        <nav class="hidden md:flex items-center gap-space-lg">
-            <a class="${activeMenu == 'home' ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'} transition-colors" href="${ctx}/home">Services &amp; Specialities</a>
-            <a class="text-on-surface-variant hover:text-on-surface transition-colors" href="${ctx}/doctors">Find a Physician</a>
-            <c:if test="${user.role == 'PATIENT'}">
-                <a class="text-on-surface-variant hover:text-on-surface transition-colors" href="${ctx}/patient/appointments">My appointments</a>
-            </c:if>
-            <c:if test="${user.role == 'DOCTOR'}">
-                <a class="text-on-surface-variant hover:text-on-surface transition-colors" href="${ctx}/doctor/agenda">My agenda</a>
-            </c:if>
-            <c:if test="${user.role == 'ADMIN'}">
-                <a class="text-on-surface-variant hover:text-on-surface transition-colors" href="${ctx}/admin/dashboard">Administration</a>
-            </c:if>
-        </nav>
+        <c:if test="${not hideMenu}">
+            <nav class="hidden md:flex items-center gap-space-lg">
+                <a class="${activeMenu == 'home' ? 'text-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface'} transition-colors"
+                   href="${ctx}/home">Services &amp; Specialities</a>
+                <a class="text-on-surface-variant hover:text-on-surface transition-colors" href="${ctx}/doctors">Find a
+                    Physician</a>
+                <c:if test="${user.role == 'PATIENT'}">
+                    <a class="text-on-surface-variant hover:text-on-surface transition-colors"
+                       href="${ctx}/patient/appointments">My appointments</a>
+                </c:if>
+                <c:if test="${user.role == 'DOCTOR'}">
+                    <a class="text-on-surface-variant hover:text-on-surface transition-colors"
+                       href="${ctx}/doctor/agenda">My agenda</a>
+                </c:if>
+                <c:if test="${user.role == 'ADMIN'}">
+                    <a class="text-on-surface-variant hover:text-on-surface transition-colors"
+                       href="${ctx}/admin/dashboard">Administration</a>
+                </c:if>
+            </nav>
+        </c:if>
 
         <div class="flex items-center gap-space-md">
             <c:choose>
                 <c:when test="${empty user}">
-                    <a class="px-space-md py-2 rounded-lg font-label-lg text-label-lg text-primary hover:bg-surface-container-high transition-colors" href="${ctx}/login">Sign In</a>
-                    <a class="px-space-md py-2 rounded-lg font-label-lg text-label-lg bg-primary text-on-primary hover:bg-primary-container transition-colors" href="${ctx}/patient/appointments/new">Book Appointment</a>
+                    <c:if test="${activeMenu != 'login'}">
+                        <a class="px-space-md py-2 rounded-lg font-label-lg text-label-lg text-primary hover:bg-surface-container-high transition-colors"
+                           href="${ctx}/login">Sign In</a>
+                    </c:if>
+                    <a class="px-space-md py-2 rounded-lg font-label-lg text-label-lg bg-primary text-on-primary hover:bg-primary-container transition-colors"
+                       href="${ctx}/patient/appointments/new">Book Appointment</a>
                 </c:when>
                 <c:otherwise>
                     <a class="px-space-md py-2 rounded-lg font-label-lg text-label-lg text-primary hover:bg-surface-container-high transition-colors"
                        href="${ctx}/${fn:toLowerCase(user.role)}/dashboard"><c:out value="${user.firstName}"/></a>
                     <form action="${ctx}/logout" method="post">
-                        <button class="px-space-md py-2 rounded-lg font-label-lg text-label-lg bg-surface-container-high hover:bg-surface-variant transition-colors" type="submit">Log out</button>
+                        <button class="px-space-md py-2 rounded-lg font-label-lg text-label-lg bg-surface-container-high hover:bg-surface-variant transition-colors"
+                                type="submit">Log out
+                        </button>
                     </form>
                 </c:otherwise>
             </c:choose>
@@ -44,4 +57,4 @@
     </div>
     <c:remove var="flash" scope="session"/>
 </c:if>
-<main class="w-full pt-16 bg-background">
+<main class="w-full pt-16 bg-background ${mainClass}">

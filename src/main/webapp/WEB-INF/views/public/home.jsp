@@ -1,4 +1,7 @@
 <%-- Servlet: HomeServlet (GET /home). Request attributes: specialties (List<SpecialtyDTO>), featuredDoctors (List<DoctorDTO>) --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <c:set var="pageTitle" value="ClinicManager - Your health, managed simply"/>
 <c:set var="activeMenu" value="home"/>
 <%@ include file="/WEB-INF/views/common/header.jspf" %>

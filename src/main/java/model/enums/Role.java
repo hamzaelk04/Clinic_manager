@@ -1,6 +1,6 @@
 package model.enums;
 
-public enum UserRole {
+public enum Role {
     ADMIN,
     DOCTOR,
     STAFF,

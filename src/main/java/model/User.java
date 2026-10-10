@@ -1,7 +1,9 @@
 package model;
 
 import jakarta.persistence.*;
-import model.enums.UserRole;
+import model.enums.Role;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
@@ -9,12 +11,13 @@ import java.util.UUID;
 @Table(name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "first_name", length = 50)
+    @Column(length = 50)
     private String firstname;
 
-    @Column(name = "first_name", length = 50)
+    @Column(length = 50)
     private String lastname;
 
     @Column(nullable = false, unique = true)
@@ -27,8 +30,9 @@ public class User {
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(nullable = false)
-    private UserRole role;
+    private Role role;
 
     @Column
     private boolean active = true;
@@ -77,11 +81,11 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public UserRole getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

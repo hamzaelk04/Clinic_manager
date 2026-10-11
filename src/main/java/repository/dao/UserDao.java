@@ -22,8 +22,8 @@ public class UserDao implements UserRepository {
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                throw e;
             }
+                throw e;
         } finally {
             entityManager.close();
         }

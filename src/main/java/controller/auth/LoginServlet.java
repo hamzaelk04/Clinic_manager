@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("loggedUser", user);
 
-            response.sendRedirect(request.getContextPath() + "/patient");
+            response.sendRedirect(request.getContextPath() + "/home");
         } else {
             request.setAttribute("error", "Invalid email or password.");
             request.setAttribute("email", email);

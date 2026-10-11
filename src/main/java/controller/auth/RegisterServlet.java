@@ -38,7 +38,7 @@ public class RegisterServlet extends HttpServlet {
         try {
             if (authService.emailExists(email)) {
                 setErrorAttributes(request, "An account with this email already exists.", firstName, lastName, email, phone, cin);
-                request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(request, response);
                 return;
             }
 
@@ -56,7 +56,7 @@ public class RegisterServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             setErrorAttributes(request, "An unexpected error occurred. Please try again.", firstName, lastName, email, phone, cin);
-            request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(request, response);
         }
     }
 

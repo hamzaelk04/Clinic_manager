@@ -2,8 +2,6 @@ package model;
 
 import jakarta.persistence.*;
 import model.enums.Role;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.util.UUID;
 
@@ -33,8 +31,7 @@ public class User {
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    @Column(nullable = false, name = "\"role\"")
+    @Column(name = "role", nullable = false, length = 20)
     private Role role;
 
     @Column

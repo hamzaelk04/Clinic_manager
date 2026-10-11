@@ -5,7 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.User;
+import model.Patient;
 import service.AuthService;
 
 import java.io.IOException;
@@ -29,9 +29,9 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        if (!password.equals(confirmPassword)) {
+        if (password == null || !password.equals(confirmPassword)) {
             setErrorAttributes(request, "Passwords do not match.", firstName, lastName, email, phone, cin);
-            request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(request, response);
             return;
         }
 
@@ -42,17 +42,28 @@ public class RegisterServlet extends HttpServlet {
                 return;
             }
 
-            User user = new User();
-            user.setFirstname(firstName);
-            user.setLastname(lastName);
-            user.setEmail(email);
-            user.setPhone(phone);
-            user.setCin(cin);
-            user.setPasswordHash(password);
+            String normalizedCin = cin == null || cin.isBlank() ? null : cin.trim();
 
-            authService.register(user);
+            if (normalizedCin != null && authService.cinExists(normalizedCin)) {
+                setErrorAttributes(request, "An account with this CIN already exists.", firstName, lastName, email, phone, cin);
+                request.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(request, response);
+                return;
+            }
+
+            Patient patient = new Patient();
+            patient.setFirstname(firstName);
+            patient.setLastname(lastName);
+            patient.setEmail(email);
+            patient.setPhone(phone);
+            patient.setCin(normalizedCin);
+            patient.setPasswordHash(password);
+
+            authService.register(patient);
 
             response.sendRedirect(request.getContextPath() + "/login?registered=true");
+        } catch (IllegalArgumentException e) {
+            setErrorAttributes(request, e.getMessage(), firstName, lastName, email, phone, cin);
+            request.getRequestDispatcher("/WEB-INF/views/auth/register.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             setErrorAttributes(request, "An unexpected error occurred. Please try again.", firstName, lastName, email, phone, cin);

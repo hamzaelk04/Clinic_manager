@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
+import model.enums.Role;
 import service.AuthService;
 
 import java.io.IOException;
@@ -35,15 +36,33 @@ public class LoginServlet extends HttpServlet {
 
         User user = authService.login(email, password);
 
-        if (user != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("loggedUser", user);
-
-            response.sendRedirect(request.getContextPath() + "/home");
-        } else {
+        if (user == null) {
             request.setAttribute("error", "Invalid email or password.");
             request.setAttribute("email", email);
             request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
+            return;
         }
+
+        if (!user.isActive()) {
+            request.setAttribute("error", "This account has been disabled.");
+            request.setAttribute("email", email);
+            request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
+            return;
+        }
+
+        HttpSession session = request.getSession();
+        request.changeSessionId();
+        session.setAttribute("loggedUser", user);
+
+        response.sendRedirect(request.getContextPath() + resolveRedirectPath(user.getRole()));
+    }
+
+    private String resolveRedirectPath(Role role) {
+        return switch (role) {
+            case ADMIN -> "/admin";
+            case STAFF -> "/staff";
+            case DOCTOR -> "/doctor";
+            case PATIENT -> "/patient";
+        };
     }
 }

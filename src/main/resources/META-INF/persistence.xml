@@ -7,6 +7,7 @@
             <property name="jakarta.persistence.jdbc.url"      value="jdbc:postgresql://localhost:5433/Clinic_Manager_DB"/>
             <property name="jakarta.persistence.jdbc.user"     value="postgres"/>
             <property name="jakarta.persistence.jdbc.password" value="t7)rpjDb"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql"     value="true"/>
         </properties>

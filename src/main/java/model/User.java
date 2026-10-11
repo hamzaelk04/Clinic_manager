@@ -26,6 +26,9 @@ public class User {
     @Column(length = 20)
     private String phone;
 
+    @Column(length = 10)
+    private String cin;
+
     @Column(nullable = false)
     private String passwordHash;
 
@@ -71,6 +74,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getCin() {
+        return cin;
+    }
+
+    public void setCin(String cin) {
+        this.cin = cin;
     }
 
     public String getPasswordHash() {

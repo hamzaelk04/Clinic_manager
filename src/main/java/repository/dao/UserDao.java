@@ -7,10 +7,10 @@ import model.User;
 import repository.UserRepository;
 
 public class UserDao implements UserRepository {
-        EntityManager entityManager = JpaUtil.createEntityManager();
-
     @Override
     public void save(User user) {
+        EntityManager entityManager = JpaUtil.createEntityManager();
+
         EntityTransaction transaction = entityManager.getTransaction();
 
         try {
@@ -24,6 +24,36 @@ public class UserDao implements UserRepository {
                 transaction.rollback();
                 throw e;
             }
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public boolean emailExists(String email) {
+        EntityManager entityManager = JpaUtil.createEntityManager();
+
+        try {
+            Long count = entityManager.createQuery("SELECT COUNT(u) FROM User u WHERE u.email = :email", Long.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+
+            return count > 0;
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        EntityManager entityManager = JpaUtil.createEntityManager();
+
+        try {
+            return entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+                    .setParameter("email", email)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
         } finally {
             entityManager.close();
         }

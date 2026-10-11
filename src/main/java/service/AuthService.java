@@ -21,4 +21,18 @@ public class AuthService {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean emailExists(String email) {
+        return userRepository.emailExists(email);
+    }
+
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email);
+
+        if (user != null && BCrypt.checkpw(password, user.getPasswordHash())) {
+            return user;
+        }
+
+        return null;
+    }
 }

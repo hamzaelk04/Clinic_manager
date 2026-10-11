@@ -36,11 +36,11 @@ public class RegisterServlet extends HttpServlet {
         }
 
         try {
-//            if (userService.emailExists(email)) {
-//                setErrorAttributes(request, "An account with this email already exists.", firstName, lastName, email, phone, cin);
-//                request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
-//                return;
-//            }
+            if (authService.emailExists(email)) {
+                setErrorAttributes(request, "An account with this email already exists.", firstName, lastName, email, phone, cin);
+                request.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(request, response);
+                return;
+            }
 
             User user = new User();
             user.setFirstname(firstName);

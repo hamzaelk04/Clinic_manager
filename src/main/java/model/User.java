@@ -8,33 +8,33 @@ import org.hibernate.type.SqlTypes;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "public")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(length = 50)
+    @Column(length = 50, name = "firstname")
     private String firstname;
 
-    @Column(length = 50)
+    @Column(length = 50, name = "lastname")
     private String lastname;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, name = "email")
     private String email;
 
-    @Column(length = 20)
+    @Column(length = 20, name = "phone")
     private String phone;
 
-    @Column(length = 10)
+    @Column(length = 10, name = "cin")
     private String cin;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "passwordhash")
     private String passwordHash;
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "\"role\"")
     private Role role;
 
     @Column

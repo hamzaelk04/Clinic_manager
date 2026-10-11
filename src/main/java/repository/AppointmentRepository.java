@@ -2,16 +2,24 @@ package repository;
 
 import model.Appointment;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
-public interface AppointmentRepository extends BaseRepository<Appointment> {
-    List<Appointment> findByPatientId(UUID patientId);
+public interface AppointmentRepository {
 
-    List<Appointment> findByDoctorId(UUID doctorId);
+    void save(Appointment appointment);
 
-    List<Appointment> findByDoctorIdAndPeriod(UUID doctorId, LocalDateTime rangeStart, LocalDateTime rangeEnd);
+    Appointment findById(UUID id);
 
-    boolean existsOverlap(UUID doctorId, LocalDateTime start, LocalDateTime end);
+    List<Appointment> findByPatient(UUID patientId);
+
+    List<Appointment> findByDoctor(UUID doctorId);
+
+    void update(Appointment appointment);
+
+    void delete(Appointment appointment);
+
+    boolean checkAppointment(UUID doctorId, LocalDate date, LocalTime startTime, LocalTime endTime);
 }

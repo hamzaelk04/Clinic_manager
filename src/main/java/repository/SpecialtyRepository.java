@@ -1,14 +1,20 @@
 package repository;
 
+import model.Department;
 import model.Specialty;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface SpecialtyRepository extends BaseRepository<Specialty> {
-    Specialty findByName(String name);
+public interface SpecialtyRepository {
 
-    boolean nameExists(String name);
+    void save(Specialty specialty);
 
-    List<Specialty> findByDepartmentId(UUID departmentId);
+    List<Specialty> finAll();
+
+    Specialty findById(UUID id);
+
+    List<Specialty> findByDepartement(Department department);
+
+    void update(Specialty specialty);
 }

@@ -2,8 +2,16 @@ package repository;
 
 import model.Department;
 
-public interface DepartmentRepository extends BaseRepository<Department> {
-    Department findByName(String name);
+import java.util.List;
+import java.util.UUID;
 
-    boolean nameExists(String name);
+public interface DepartmentRepository {
+
+    void save(Department department);
+
+    Department findById(UUID id);
+
+    List<Department> findAll();
+
+    void update(Department department);
 }

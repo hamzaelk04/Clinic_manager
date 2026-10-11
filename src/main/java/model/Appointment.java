@@ -1,15 +1,17 @@
 package model;
 
-import jakarta.persistence.*;
 import model.enums.AppointmentStatus;
 import model.enums.AppointmentType;
+import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "appointments")
 public class Appointment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -22,25 +24,40 @@ public class Appointment {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @Column(name = "start_date_time", nullable = false)
-    private LocalDateTime startDateTime;
+    @Column(nullable = false)
+    private LocalDate date;
 
-    @Column(name = "end_date_time", nullable = false)
-    private LocalDateTime endDateTime;
+    @Column(nullable = false)
+    private LocalTime startTime;
+
+    @Column(nullable = false)
+    private LocalTime endTime;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false, length = 20)
+    @Column(nullable = false)
     private AppointmentType type;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 20)
-    private AppointmentStatus status = AppointmentStatus.PLANNED;
-
-    @Column(name = "reason", length = 500)
+    @Column(length = 500)
     private String reason;
 
-    @OneToOne(mappedBy = "appointment", fetch = FetchType.LAZY)
-    private MedicalNote medicalNote;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AppointmentStatus status;
+
+    public Appointment() {
+    }
+
+    public Appointment(Patient patient, Doctor doctor, LocalDate date, LocalTime startTime, LocalTime endTime, AppointmentType type, String reason, AppointmentStatus status)
+    {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.type = type;
+        this.reason = reason;
+        this.status = status;
+    }
 
     public UUID getId() {
         return id;
@@ -62,20 +79,28 @@ public class Appointment {
         this.doctor = doctor;
     }
 
-    public LocalDateTime getStartDateTime() {
-        return startDateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setStartDateTime(LocalDateTime startDateTime) {
-        this.startDateTime = startDateTime;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public LocalDateTime getEndDateTime() {
-        return endDateTime;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
-    public void setEndDateTime(LocalDateTime endDateTime) {
-        this.endDateTime = endDateTime;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 
     public AppointmentType getType() {
@@ -86,14 +111,6 @@ public class Appointment {
         this.type = type;
     }
 
-    public AppointmentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AppointmentStatus status) {
-        this.status = status;
-    }
-
     public String getReason() {
         return reason;
     }
@@ -102,11 +119,11 @@ public class Appointment {
         this.reason = reason;
     }
 
-    public MedicalNote getMedicalNote() {
-        return medicalNote;
+    public AppointmentStatus getStatus() {
+        return status;
     }
 
-    public void setMedicalNote(MedicalNote medicalNote) {
-        this.medicalNote = medicalNote;
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
     }
 }

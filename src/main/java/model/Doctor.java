@@ -1,7 +1,6 @@
 package model;
 
 import jakarta.persistence.*;
-import model.enums.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,31 +8,28 @@ import java.util.List;
 @Entity
 @Table(name = "doctors")
 public class Doctor extends User {
-    @Column(nullable = false, unique = true, length = 50)
+
+    @Column(unique = true, nullable = false)
     private String matricule;
 
-    @Column(length = 50)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "specialty_id", nullable = false)
     private Specialty specialty;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "department_id", nullable = false)
-    private Department department;
-
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(
+            mappedBy = "doctor",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Availability> availabilities = new ArrayList<>();
 
     @OneToMany(mappedBy = "doctor")
-    private List<Appointment> appointments = new ArrayList<>();
+    private List<Appointment> appointments;
 
-    @OneToMany(mappedBy = "doctor")
-    private List<MedicalNote> medicalNotes = new ArrayList<>();
 
     public Doctor() {
-        setRole(Role.DOCTOR);
     }
 
     public String getMatricule() {
@@ -60,14 +56,6 @@ public class Doctor extends User {
         this.specialty = specialty;
     }
 
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
     public List<Availability> getAvailabilities() {
         return availabilities;
     }
@@ -82,13 +70,5 @@ public class Doctor extends User {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
-    }
-
-    public List<MedicalNote> getMedicalNotes() {
-        return medicalNotes;
-    }
-
-    public void setMedicalNotes(List<MedicalNote> medicalNotes) {
-        this.medicalNotes = medicalNotes;
     }
 }

@@ -1,8 +1,8 @@
-package model.enums;
-
-public enum Role {
-    ADMIN,
-    DOCTOR,
-    STAFF,
-    PATIENT
-}
+package model.enums;
+
+public enum Role {
+    ADMIN,
+    DOCTOR,
+    PATIENT,
+    STAFF
+}

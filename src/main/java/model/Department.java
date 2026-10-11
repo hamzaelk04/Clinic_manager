@@ -13,17 +13,15 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(unique = true , nullable = false)
     private String name;
+    private String description;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Specialty> specialties = new ArrayList<>();
 
-    @OneToMany(mappedBy = "department")
-    private List<Doctor> doctors = new ArrayList<>();
+    public Department() {
 
-    public UUID getId() {
-        return id;
     }
 
     public String getName() {
@@ -34,19 +32,27 @@ public class Department {
         this.name = name;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<Specialty> getSpecialties() {
         return specialties;
     }
 
     public void setSpecialties(List<Specialty> specialties) {
         this.specialties = specialties;
-    }
-
-    public List<Doctor> getDoctors() {
-        return doctors;
-    }
-
-    public void setDoctors(List<Doctor> doctors) {
-        this.doctors = doctors;
     }
 }
